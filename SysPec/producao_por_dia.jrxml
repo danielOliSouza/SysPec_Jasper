@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="producao_por_dia" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="84da0fee-f416-4758-8dd4-82eefe0b47cd">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="PostgreSQL_SYSPEC"/>
+	<parameter name="dt_inicio" class="java.util.Date"/>
+	<parameter name="dt_fim" class="java.util.Date"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT id, dt_extracao_inicio, dt_extracao_fim,
+	(SELECT SUM(ordAtual.qtd) AS qtd FROM ordenha ordAtual WHERE ordAtual.extracao_id = extracao.id),
+	(SELECT
+     	(SELECT SUM(ordAtual.qtd) AS qtd_ant FROM ordenha ordAtual WHERE ordAtual.extracao_id = extracaoOld.id)
+     FROM extracao extracaoOld 
+     WHERE extracaoOld.dt_extracao_inicio <= extracao.dt_extracao_inicio 
+     AND extracaoOld.id != extracao.id ORDER BY extracaoOld.dt_extracao_inicio DESC LIMIT 1)
+FROM extracao WHERE dt_extracao_inicio BETWEEN $P{dt_inicio} AND $P{dt_fim} ORDER BY dt_extracao_inicio]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="extracao"/>
+	</field>
+	<field name="dt_extracao_inicio" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="dt_extracao_inicio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="extracao"/>
+	</field>
+	<field name="dt_extracao_fim" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="dt_extracao_fim"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="extracao"/>
+	</field>
+	<field name="qtd" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="qtd"/>
+	</field>
+	<field name="qtd_ant" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="qtd_ant"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="59" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="80" height="30" uuid="ba68d881-7c8d-4e24-af3f-9343bb944645">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="92880926-af10-4a7c-ae3d-7a876d679833"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="0" width="150" height="30" uuid="54c490cb-4dbf-4d9c-aef8-3e71062f850d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="29f5b767-ff5b-4611-9f6f-80098536baf2"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="0" width="120" height="30" uuid="c0aa9ffb-798f-4b63-843b-dc031a527014">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="28825391-a7bc-426c-bc95-6257a1fb7765"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fim]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="36" width="551" height="1" uuid="eb50949f-0cb6-4cd3-abb8-87ec63084074"/>
+			</line>
+			<staticText>
+				<reportElement x="350" y="0" width="100" height="30" uuid="8c88b86f-accd-41b4-9439-dda599194539">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="609c20ab-1f68-494b-bda9-db4fd2755810"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[QTD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="0" width="100" height="30" uuid="200f6ea9-7fe0-40b9-a35d-6f7ae84fc99f">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="609c20ab-1f68-494b-bda9-db4fd2755810"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Variação %]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="41" splitType="Stretch">
+			<textField pattern="#.## %" isBlankWhenNull="true">
+				<reportElement x="450" y="0" width="100" height="30" uuid="1948e09a-41df-489d-9430-d87d3028b563"/>
+				<textFieldExpression><![CDATA[(($F{qtd} - $F{qtd_ant}) / $F{qtd_ant})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="80" height="30" uuid="d15800d9-f4dd-4582-a851-c1c717fbfa2d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="92880926-af10-4a7c-ae3d-7a876d679833"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="0" width="150" height="30" uuid="a77f467c-d1f5-4a5d-aee7-74269d6de527">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="29f5b767-ff5b-4611-9f6f-80098536baf2"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{dt_extracao_inicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="230" y="0" width="120" height="30" uuid="4ad2520b-3a00-484d-ae66-f27f2c645222">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="28825391-a7bc-426c-bc95-6257a1fb7765"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{dt_extracao_fim}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="350" y="0" width="100" height="30" uuid="97eb2530-c14a-4c57-961a-400a7e417624">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="609c20ab-1f68-494b-bda9-db4fd2755810"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{qtd}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
