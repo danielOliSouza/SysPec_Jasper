@@ -37,11 +37,16 @@ FROM extracao WHERE dt_extracao_inicio BETWEEN $P{dt_inicio} AND $P{dt_fim} ORDE
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="20" width="551" height="30" uuid="ba56a640-cf64-464b-bb60-836ebe9b407e"/>
+				<textElement textAlignment="Center">
+					<font size="19" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Variação Produção]]></text>
+			</staticText>
+		</band>
 	</title>
-	<pageHeader>
-		<band height="35" splitType="Stretch"/>
-	</pageHeader>
 	<columnHeader>
 		<band height="59" splitType="Stretch">
 			<staticText>
@@ -141,13 +146,4 @@ FROM extracao WHERE dt_extracao_inicio BETWEEN $P{dt_inicio} AND $P{dt_fim} ORDE
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>
